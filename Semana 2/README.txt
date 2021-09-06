@@ -1,0 +1,1 @@
+O Envio consiste de pastas com a numeração dos exercí­cios, nelas estão localizadas os respectivos arquivos, tambem nomeados de acordo.
