@@ -8,16 +8,16 @@ typedef struct{
 }Pessoa;
 
 typedef struct Lista{
-    Pessoa pessoa;
+    Pessoa* pessoa;
     struct Lista* proximo;
 }Lista;
 
-Pessoa criaPessoa();
+Pessoa* criaPessoa();
 void push(Lista **lista, int pos, int fim); //Deve receber posicao, e head;
 void pop(Lista **lista,int pos, int fim); //Apenas remove o elemento, reorganizando a lista depois
 void reset(Lista **lista); //Remove todos os elementos
 int getElement(Lista *lista, char nome[32]); //Retorna a posicao dado um nome
-void printPessoa(Pessoa pessoa, int pos); // Imprime a pessoa, dada a pessoa e a posicao
+void printPessoa(Pessoa *pessoa, int pos); // Imprime a pessoa, dada a pessoa e a posicao
 void printList(Lista *lista); //Imprime a lista;
 
 int main (){
@@ -43,25 +43,25 @@ int main (){
                 printf("|=| Saindo do programa");
                 break;
             case 0: {
-                int pos = fim + 1;
+                int pos = 0;
                 while(pos < 0 || pos > fim){
-                    printf("|=| Insira a posicao desejada:"); scanf("%s", pos);
+                    printf("|=| Insira a posicao desejada:"); scanf("%s", &pos);
                 }
                 push(&lista, pos, fim);
                 fim++;
                 break;
             }
             case 1: {
-                int pos = fim + 1;
+                int pos = 0;
                 while(pos < 0 || pos > fim){
-                    printf("|=| Insira a posicao desejada:"); scanf("%s", pos);
+                    printf("|=| Insira a posicao desejada:"); scanf("%s", &pos);
                 }
                 pop(&lista,pos, fim);
                 break;
             }
             case 2: {
                 char input[32];
-                printf("|=| Insira o nome desejado:"); scanf("%s", input);
+                printf("|=| Insira o nome desejado:"); scanf("%s", &input);
                 getElement(lista, input);
                 break;
             }
@@ -81,10 +81,10 @@ int main (){
     return 0;
 }
 
-Pessoa criaPessoa(){
-    Pessoa pessoa;
-    printf("|=| Insira o nome:");   scanf("%s", pessoa.nome);
-    printf("|=| Insira a idade:");  scanf("%d", &pessoa.idade);
+Pessoa* criaPessoa(){
+    Pessoa *pessoa = (Pessoa*) malloc(sizeof (Pessoa));
+    printf("|=| Insira o nome:");   scanf("%s", pessoa->nome);
+    printf("|=| Insira a idade:");  scanf("%d", &pessoa->idade);
 
     return pessoa;
 }
@@ -123,8 +123,8 @@ void push(Lista **lista, int pos, int fim){
 
 void pop(Lista **lista,int pos, int fim){
     if((*lista)->proximo == NULL){
-        (*lista)->pessoa.idade = 0;
-        strcpy((*lista)->pessoa.nome, "\0");
+        (*lista)->pessoa->idade = 0;
+        strcpy((*lista)->pessoa->nome, "\0");
         (*lista) = NULL;
         free((*lista));
     }else if(pos == fim){
@@ -137,8 +137,8 @@ void pop(Lista **lista,int pos, int fim){
         }
         anterior->proximo = NULL;
 
-        proximo->pessoa.idade = 0;
-        strcpy(proximo->pessoa.nome, "\0");
+        proximo->pessoa->idade = 0;
+        strcpy(proximo->pessoa->nome, "\0");
         proximo = NULL;
         free(proximo);
     }else{
@@ -154,8 +154,8 @@ void pop(Lista **lista,int pos, int fim){
 
         anterior->proximo = proximo->proximo;
 
-        proximo->pessoa.idade = 0;
-        strcpy(proximo->pessoa.nome, "\0");
+        proximo->pessoa->idade = 0;
+        strcpy(proximo->pessoa->nome, "\0");
         proximo = NULL;
         free(proximo);
     }
@@ -163,8 +163,8 @@ void pop(Lista **lista,int pos, int fim){
 
 void reset(Lista **lista){
     if((*lista)->proximo == NULL){
-        (*lista)->pessoa.idade = 0;
-        strcpy((*lista)->pessoa.nome, "\0");
+        (*lista)->pessoa->idade = 0;
+        strcpy((*lista)->pessoa->nome, "\0");
         (*lista) = NULL;
         free((*lista));
 
@@ -176,8 +176,8 @@ void reset(Lista **lista){
             anterior = proximo;
 
             anterior->proximo = NULL;
-            anterior->pessoa.idade = 0;
-            strcpy(anterior->pessoa.nome, "\0");
+            anterior->pessoa->idade = 0;
+            strcpy(anterior->pessoa->nome, "\0");
             free(anterior);
 
             proximo = proximo->proximo;
@@ -188,61 +188,33 @@ void reset(Lista **lista){
 }
 
 int getElement(Lista *lista, char nome[32]){
-    //Devido a possibilidade de existir duplicatas dos nomes,optei por seguir a lista inteira
-    //ao inves de parar na primeira ocorrencia
+    //Ele retornara a primeira ocorrencia do nome, para evitar complicacoes desnecessarias
     int c = 0;
     int i = 0;
-    int *pos = (int*)malloc(sizeof(int));
-
+    int pos = -1;
     Lista *temp = lista;
 
-    Pessoa *out = (Pessoa*) malloc(sizeof (Pessoa));
     while(temp != NULL){
-        if(strcmp(temp->pessoa.nome, nome) == 0){
-            c++;
-            pos = (int*)realloc(pos, c);
-            out = (Pessoa *)realloc(out, c);
-            if(c == 0){
-                pos[c] = i;
-                out[c].idade = temp->pessoa.idade;
-                strcpy(out[c].nome, temp->pessoa.nome);
-            }
+        if(strcmp(temp->pessoa->nome, nome) == 0){
+            pos = i;
+            break;
         }
         temp = temp->proximo;
         i++;
     }
 
-    if((c == 1)){
-        return pos[0];
-    }else if((c > 1)){
-        for(int k = 0;k < c; k++){
-            printPessoa(out[k], k);
-            printf("    |=| Posicao => %d\n", pos[k]);
-        }
-        int op = -1;
-        int k = 0;
-        while(k != 1){
-            printf("|=| Insira qual posicao deseja remover:"); scanf("%d", &op);
-            for(int j = 0; j < c; j++){
-                if(pos[j] == op){
-                    k++;
-                }
-            }
-            if(k==0){
-                printf("|=| Entrada Invalida\n");
-            }
-        }
-
+    if((c >= 0)){
+        return pos;
     }else{
         //Retornar -1 significa que achou ninguem
         return -1;
     }
 }
 
-void printPessoa(Pessoa pessoa, int pos){
+void printPessoa(Pessoa* pessoa, int pos){
     printf("|===[%d]========================================|\n", pos);
-    printf("    |=| Nome => %s\n", pessoa.nome);
-    printf("    |=| Idade => %d\n", pessoa.idade);
+    printf("    |=| Nome => %s\n", pessoa->nome);
+    printf("    |=| Idade => %d\n", pessoa->idade);
 }
 
 void printList(Lista *lista){
