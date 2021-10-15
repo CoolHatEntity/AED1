@@ -1,0 +1,2 @@
+Se trata de uma pilha, uma vez que uma pilha é LIFO (Last In First Out),
+os elementos são posicionados ao fim da pilha e removidos a partir daí
