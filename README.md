@@ -10,10 +10,10 @@ Seguindo os passos a seguir, será possível poder executar o projeto em sua má
 
 ### Instalação
 
-1. Clone this repository:
+1. Clone esse repositório:
    ```sh
    git clone https://github.com/CoolHatEntity/Desafio-PrideDev.git
-   ```
+   ```   
 
 ## Licença
 
