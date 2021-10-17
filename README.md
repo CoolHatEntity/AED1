@@ -13,6 +13,16 @@ Seguindo os passos a seguir, será possível poder executar o projeto em sua má
    ```sh
    git clone https://github.com/CoolHatEntity/Desafio-PrideDev.git
    ```   
+2. Navegar até o exercício desejado, exemplo "\Semana 7\Exercicio\"
+3. Compilar o código
+   ```sh
+   gcc Exercício.c
+   ```
+4. Executar
+   ```sh
+   Exercício
+   ```
+   
 
 ## Licença
 
