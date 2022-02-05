@@ -1,4 +1,4 @@
-# Algoritimos e Estrutura de Dados 1 &middot; ![GitHub top language](https://img.shields.io/github/languages/top/CoolHatEntity/AED1) ![Repo Size](https://img.shields.io/github/languages/code-size/CoolHatEntity/AED1) ![License](https://img.shields.io/github/license/CoolHatEntity/AED1)
+# Algoritimos e Estrutura de Dados 1 &middot; ![GitHub top language](https://img.shields.io/github/languages/top/mathsmnz/AED1) ![Repo Size](https://img.shields.io/github/languages/code-size/mathsmnz/AED1) ![License](https://img.shields.io/github/license/mathsmnz/AED1)
 ## Sobre o projeto
 
 Esse repositório foi criado para conter os arquivos relacionados ás tarefas realizadas durante minhas aulas de AED1, contendo assim diferentes algoritimos relativos á estrutura de dados, tais como: Árvores binárias, filas, pilhas ou listas encadeadas.
@@ -11,7 +11,7 @@ Seguindo os passos a seguir, será possível poder executar o projeto em sua má
 
 1. Clone esse repositório:
    ```sh
-   git clone https://github.com/CoolHatEntity/Desafio-PrideDev.git
+   git clone https://github.com/mathsmnz/AED1.git
    ```   
 2. Navegar até o exercício desejado, exemplo "\Semana 7\Exercicio\"
 3. Compilar o código
